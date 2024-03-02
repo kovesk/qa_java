@@ -28,6 +28,7 @@ public class LionTest {
     @Mock
     private Feline feline;
 
+
     public LionTest(String sex, boolean expectedHasMane, int expectedKittens) {
         this.sex = sex;
         this.expectedHasMane = expectedHasMane;
@@ -50,36 +51,26 @@ public class LionTest {
     @Test
     public void testLionConstructor() throws Exception {
         when(predator.eatMeat()).thenReturn(Arrays.asList("Животные", "Птицы", "Рыба"));
-        Lion lion = new Lion(sex, predator) {
-            @Override
-            public Feline getFeline() {
-                return null;
-            }
-        };
+        Lion lion = new Lion(sex, feline);
         assertEquals(expectedHasMane, lion.doesHaveMane());
+    }
+
+    @Test(expected = Exception.class)
+    public void testLionConstructorThrowsException() throws Exception {
+        Lion lion = new Lion("Неверное значение", feline);
     }
 
     @Test
     public void testGetKittens() throws Exception {
         when(feline.getKittens()).thenReturn(expectedKittens);
-        Lion lion = new Lion(sex, predator) {
-            @Override
-            public Feline getFeline() {
-                return feline;
-            }
-        };
+        Lion lion = new Lion(sex, feline);
         assertEquals(expectedKittens, lion.getKittens());
     }
 
     @Test
     public void testGetFood() throws Exception {
-        when(predator.eatMeat()).thenReturn(Arrays.asList("Животные", "Птицы", "Рыба"));
-        Lion lion = new Lion(sex, predator) {
-            @Override
-            public Feline getFeline() {
-                return null;
-            }
-        };
+        when(feline.getFood("Хищник")).thenReturn(Arrays.asList("Животные", "Птицы", "Рыба"));
+        Lion lion = new Lion(sex, feline);
         List<String> expectedFood = Arrays.asList("Животные", "Птицы", "Рыба");
         List<String> food = lion.getFood();
         Assert.assertEquals(expectedFood, food);
