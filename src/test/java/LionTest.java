@@ -21,10 +21,6 @@ public class LionTest {
     private String sex;
     private boolean expectedHasMane;
     private int expectedKittens;
-
-    @Mock
-    private Predator predator;
-
     @Mock
     private Feline feline;
 
@@ -49,15 +45,9 @@ public class LionTest {
     }
 
     @Test
-    public void testLionConstructor() throws Exception {
-        when(predator.eatMeat()).thenReturn(Arrays.asList("Животные", "Птицы", "Рыба"));
+    public void testConstructor() throws Exception {
         Lion lion = new Lion(sex, feline);
         assertEquals(expectedHasMane, lion.doesHaveMane());
-    }
-
-    @Test(expected = Exception.class)
-    public void testLionConstructorThrowsException() throws Exception {
-        Lion lion = new Lion("Неверное значение", feline);
     }
 
     @Test
@@ -65,6 +55,11 @@ public class LionTest {
         when(feline.getKittens()).thenReturn(expectedKittens);
         Lion lion = new Lion(sex, feline);
         assertEquals(expectedKittens, lion.getKittens());
+    }
+    @Test
+    public void testDoesHaveMane() throws Exception {
+        Lion lion = new Lion(sex, feline);
+        assertEquals(expectedHasMane, lion.doesHaveMane());
     }
 
     @Test
@@ -76,3 +71,4 @@ public class LionTest {
         Assert.assertEquals(expectedFood, food);
     }
 }
+
